@@ -26,9 +26,9 @@ class HandleData:
                         datetime.now().strftime("%d_%m_%Y_%H_%M_%S") + ".csv"  # conver this to UTC too?
 
             file = os.path.join(abs_path, "Ta_files", file_name)
-
-            #output.to_csv(file)
-            print("File Saved in Data\\", file_name)
+            if self.records:
+                output.to_csv(file)
+                print("File Saved in Data\\", file_name)
 
             print("*" * 40)
             return self.data

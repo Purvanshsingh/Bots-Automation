@@ -1,6 +1,4 @@
 from pymongo import MongoClient
-from functools import reduce
-from datetime import datetime, timezone, timedelta
 
 
 class App_mongo_connect:
