@@ -2,6 +2,8 @@
 1. load ta report from DB
 2. sepreate all "to_ccy" wth USDT
 3. check if rsi_14 status is low open dear else close the deal.
+4. conforming deal is opened or not.(via deals api "user deals")
+
 """
 import argparse
 import os
@@ -9,6 +11,7 @@ import logger
 import HandleData
 import sys
 from datetime import datetime, timezone, time
+
 
 class AutomateBot:
     def __init__(self):
@@ -95,5 +98,17 @@ class AutomateBot:
         print(self.data.head(3))
         print("*" * 40)
 
+    def rsi_14_scale_check(self):
+        self.data = self.data[self.data['to_ccy'] == 'USDT']
+        # print(len(self.data))
+        print("checking rsi_14 for deals")
+        for currency in self.data.index:
+            if self.data.loc[currency,'rsi_14_scale'] == 1:
+                print("Open Deal for", currency)
+            elif self.data.loc[currency,'rsi_14_scale'] == 5:
+                print("Close Deal for", currency)
+
 if __name__ == "__main__":
-    AutomateBot().get_ta_data()
+    obj = AutomateBot()
+    obj.get_ta_data()
+    obj.rsi_14_scale_check()
